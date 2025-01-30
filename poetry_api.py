@@ -2,6 +2,8 @@ import random
 
 import requests
 
+from poetry_endpoints import PoetryEndpoints
+
 
 class Singleton(type):
     instances = {}
@@ -13,17 +15,17 @@ class Singleton(type):
 
 
 class PoetryDBAPI(metaclass=Singleton):
-    BASE_URL = "https://poetrydb.org/"
-    RANDOM_POEM_URL = BASE_URL + "random"
-    POEM_BY_AUTHOR = BASE_URL + "author/{}"
+
+    def __init__(self):
+        self.session = requests.Session()
 
     def _get_poem(self, url):
-        response = requests.get(url)
+        response = self.session.get(url)
         response.raise_for_status()
         return response.json()
 
     def get_random_poem(self):
-        return random.choice(self._get_poem(self.RANDOM_POEM_URL))
+        return random.choice(self._get_poem(PoetryEndpoints.RANDOM_POEM_URL.value))
 
     def get_poem_by_author(self, author):
-        return self._get_poem(self.POEM_BY_AUTHOR.format(author))[0]
+        return self._get_poem(PoetryEndpoints.POEM_BY_AUTHOR.value.format(author))[0]
