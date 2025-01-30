@@ -8,3 +8,5 @@ def request_poetry(request):
     client = PoetryDBAPI()
     request.cls.db = client
     yield client
+    del request.cls.db
+    del client

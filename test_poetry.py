@@ -6,14 +6,16 @@ from assertpy import assert_that
 class TestPoetryDB:
 
     def test_get_random_poem(self):
-        poem = self.db.get_random_poem()[0]
+        poem = self.db.get_random_poem()
         assert_that(poem).contains_key('title')
         assert_that(poem).contains_key('author')
         assert_that(poem).contains_key('lines')
+        assert_that(poem).contains_key('linecount')
+        assert_that(poem['linecount']).is_digit()
 
-    def test_get_poem_by_author(self):
-        author = "Emily Dickinson"
-        poem = self.db.get_poem_by_author(author)[0]
+    @pytest.mark.parametrize('author', (["Emily Dickinson", 'Geoffrey Chaucer']))
+    def test_get_poem_by_author(self, author: str):
+        poem = self.db.get_poem_by_author(author)
         assert_that(poem).contains_key('title')
         assert_that(poem).contains_key('author')
         assert_that(poem['author']).is_equal_to(author)
