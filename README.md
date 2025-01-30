@@ -48,7 +48,16 @@ print(author_poems)
      pytest .\test_poetry.py
    ```
 
+or using docker:
+ ```bash
+  docker compose up
+   ```
+
 | Test Case               | Description                                                        |
 |-------------------------|--------------------------------------------------------------------|
 | `test_get_random_poem`  | Fetches a random poem and checks that the response contains the keys `title`, `author`, and `lines`. |
 | `test_get_poem_by_author` | Fetches poems by a specific author (e.g., Emily Dickinson) and verifies the structure and content of the response. |
+
+### Sample allure report
+
+![Alt Text](poetry allure pic.png)
